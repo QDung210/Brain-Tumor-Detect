@@ -3,7 +3,14 @@ import joblib
 import numpy as np
 import pandas as pd
 
-# Load mô hình và classes đã lưu
+# Đặt st.set_page_config() là lệnh đầu tiên
+st.set_page_config(
+    page_title="Dự đoán Phân loại Khối U",
+    page_icon="🏥",
+    layout="wide"
+)
+
+# Sau đó mới đến các lệnh khác
 @st.cache_resource
 def load_model():
     model = joblib.load('svm_model.joblib')
@@ -11,13 +18,6 @@ def load_model():
     return model, classes
 
 model, classes = load_model()
-
-# Thiết lập trang
-st.set_page_config(
-    page_title="Dự đoán Phân loại Khối U",
-    page_icon="🏥",
-    layout="wide"
-)
 
 # CSS để tùy chỉnh giao diện
 st.markdown("""
@@ -51,7 +51,6 @@ with st.form("prediction_form"):
         mean_perimeter = st.number_input('Mean Perimeter', min_value=0.0, format="%.6f")
         mean_area = st.number_input('Mean Area', min_value=0.0, format="%.6f")
         mean_smoothness = st.number_input('Mean Smoothness', min_value=0.0, format="%.6f")
-        # Thêm các features khác nếu cần...
 
     with col2:
         mean_compactness = st.number_input('Mean Compactness', min_value=0.0, format="%.6f")
@@ -59,7 +58,6 @@ with st.form("prediction_form"):
         mean_concave_points = st.number_input('Mean Concave Points', min_value=0.0, format="%.6f")
         mean_symmetry = st.number_input('Mean Symmetry', min_value=0.0, format="%.6f")
         mean_fractal_dimension = st.number_input('Mean Fractal Dimension', min_value=0.0, format="%.6f")
-        # Thêm các features khác nếu cần...
 
     # Nút dự đoán
     submitted = st.form_submit_button("Dự đoán", use_container_width=True)
@@ -71,7 +69,6 @@ if submitted:
         mean_radius, mean_texture, mean_perimeter, mean_area, mean_smoothness,
         mean_compactness, mean_concavity, mean_concave_points, mean_symmetry,
         mean_fractal_dimension
-        # Thêm các features khác nếu cần...
     ]])
 
     # Thực hiện dự đoán
